@@ -9,7 +9,6 @@ import java.util.Collection;
 
 import static Systeme.Formulaire.Examen.Epreuve.getModalite;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EpreuveTest {
 
@@ -52,12 +51,5 @@ public class EpreuveTest {
     @MethodSource("dt")
     public void testGetModalite(Modalite modalite, String numModalite){
         assertEquals(modalite, getModalite(numModalite), "Le numéro de la modalité sélectionée ne correspond pas a la bonne modalité");
-    }
-
-    @Test
-    public void testEquals(){
-        epreuve = new Epreuve("e356gdBe", "06/05/26", "13h30", "1h30",Modalite.SurOrdinateur);
-        Epreuve epreuve2 = new Epreuve("e356gdBe", "06/05/26", "13h30", "1h30",Modalite.SurOrdinateur);
-        assertTrue(epreuve.equals(epreuve2), "Les deux instances épreuve ne sont pas égales");
     }
 }

@@ -17,10 +17,6 @@ public class Calculatrice extends Fraude {
         this.descriptionAttribut1 = "marque de l'appareil";
     }
 
-    public Calculatrice(String[] calculatrice) {
-        this(calculatrice[0],calculatrice[1],calculatrice[2],calculatrice[3]);
-    }
-
     @Override
     public String getAttribut2() {
         return attribut2;
