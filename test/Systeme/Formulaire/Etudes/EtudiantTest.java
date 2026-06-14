@@ -8,8 +8,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static Systeme.Formulaire.Etudes.Etudiant.getCursus;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class EtudiantTest {
 
@@ -56,6 +55,10 @@ public class EtudiantTest {
     public void testEquals(){
         etudiant = new Etudiant("Castro", "Axel", "1", Cursus.E3e);
         Etudiant etudiant2 = new Etudiant("Castro", "Axel", "1", Cursus.E3e);
-        assertTrue(etudiant.equals(etudiant2), "Les deux instances étudiant ne sont pas égales");
+        Etudiant etudiant3 = new Etudiant("Caillaud", "Mathis", "2", Cursus.E3e);
+        assertEquals(etudiant, etudiant2, "Les deux instances étudiant ne sont pas égales");
+        assertFalse(etudiant.equals(null), "Les deux instances étudiant sont égales");
+        assertFalse(etudiant.equals(new Object()),"Les deux instances étudiant sont égales");
+        assertNotEquals(etudiant2,etudiant3,"Les deux instances étudiant sont égales");
     }
 }

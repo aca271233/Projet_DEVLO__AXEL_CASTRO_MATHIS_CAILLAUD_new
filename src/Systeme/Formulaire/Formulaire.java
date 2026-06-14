@@ -50,7 +50,7 @@ public class Formulaire{
      * @param etudiantFraudes Etudiant fraudeurs ainsi que les fraudes qui leurs sont associées
      * @param etudiants Liste des étudiants inscrits dans le formulaire
      */
-    public Formulaire(String dateCreation, String dateModification, Systeme.Formulaire.Examen.Epreuve epreuve, HashMap<Etudiant, ArrayList<Fraude>> etudiantFraudes, LinkedList<Etudiant> etudiants) {
+    public Formulaire(String dateCreation, String dateModification, Epreuve epreuve, HashMap<Etudiant, ArrayList<Fraude>> etudiantFraudes, LinkedList<Etudiant> etudiants) {
         compteur++;
         this.identifiant=compteur;
         this.DATE_CREATION = dateCreation;
@@ -73,6 +73,26 @@ public class Formulaire{
      */
     public int getIdentifiant() {
         return identifiant;
+    }
+
+    public static int getCompteur() {
+        return compteur;
+    }
+
+    public String getDATE_CREATION() {
+        return DATE_CREATION;
+    }
+
+    public String getDateModification() {
+        return dateModification;
+    }
+
+    public HashMap<Etudiant, ArrayList<Fraude>> getEtudiantFraudes() {
+        return etudiantFraudes;
+    }
+
+    public LinkedList<Etudiant> getEtudiants() {
+        return etudiants;
     }
 
     public Systeme.Formulaire.Examen.Epreuve getEpreuve(){

@@ -43,7 +43,7 @@ public class Etudiant {
 
     /**
      * Acesseur du nom de l'étudiant
-     * @return nom : Strinf
+     * @return nom : String
      */
     public String getNOM() {
         return NOM;
@@ -94,10 +94,5 @@ public class Etudiant {
         if (o == null || getClass() != o.getClass()) return false;
         Etudiant etudiant = (Etudiant) o;
         return Objects.equals(NUMERO_APPRENANT, etudiant.NUMERO_APPRENANT) && Objects.equals(NOM, etudiant.NOM) && Objects.equals(PRENOM, etudiant.PRENOM) && CURSUS == etudiant.CURSUS;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(NUMERO_APPRENANT, NOM, PRENOM, CURSUS);
     }
 }

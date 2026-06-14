@@ -5,6 +5,8 @@ import Systeme.Formulaire.Fraude.Type.IAG.IAG;
 import Systeme.Formulaire.Fraude.Type.IAG.IAGConnectee;
 import Systeme.Formulaire.Fraude.Type.Papier;
 
+import java.util.Objects;
+
 public abstract class Fraude {
     /**
      * Date de relevée de la fraude
@@ -35,6 +37,10 @@ public abstract class Fraude {
         this.contenu = contenu;
         this.attribut1 = attribut1;
         this.description = description;
+    }
+
+    public Fraude(){
+        this(null,null,null,null);
     }
 
     public String getDateReleve() {
@@ -78,7 +84,7 @@ public abstract class Fraude {
             case "2" -> new Papier(fraudeStr[0],fraudeStr[2],fraudeStr[3],fraudeStr[4]);
             case "3" -> new Calculatrice(fraudeStr[0],fraudeStr[2],fraudeStr[3],fraudeStr[4]);
             case "4" -> new IAGConnectee(fraudeStr[0],fraudeStr[2],fraudeStr[3],fraudeStr[4]);
-            default -> getType(numType);
+            default -> null;
         };
     }
 
@@ -88,5 +94,12 @@ public abstract class Fraude {
                 ", dateReleve: " + dateReleve +
                 ", contenu: " + contenu +
                 ", " + descriptionAttribut1 + ": " + attribut1 ;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Fraude fraude = (Fraude) o;
+        return Objects.equals(dateReleve, fraude.dateReleve) && Objects.equals(contenu, fraude.contenu) && Objects.equals(attribut1, fraude.attribut1) && Objects.equals(descriptionAttribut1, fraude.descriptionAttribut1) && Objects.equals(description, fraude.description);
     }
 }
