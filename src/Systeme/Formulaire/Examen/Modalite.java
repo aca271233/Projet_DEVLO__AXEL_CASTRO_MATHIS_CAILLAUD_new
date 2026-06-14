@@ -2,6 +2,7 @@ package Systeme.Formulaire.Examen;
 
 /**
  * Cette enumeration represente la lise des modalites differents que l'on peut retrouver pour une epreuve.
+ * @author axel
  */
 public enum Modalite {
     /**

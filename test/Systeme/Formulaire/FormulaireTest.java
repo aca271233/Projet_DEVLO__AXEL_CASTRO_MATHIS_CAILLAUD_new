@@ -86,12 +86,6 @@ public class FormulaireTest {
         Assertions.assertFalse(formulaire.containsEtudiant("2"), "L'étudiant cherché est trouvé alors qui n'existe pas");
     }
 
-//    @Test
-//    public void testContainsEtudiantFormulaire(){
-//        String[] etudiant = new String[]{"1","Castro","Axel","3"};
-//        assertEquals(new Etudiant(etudiant), formulaire.containsEtudiantFormulaire(etudiant),"L'etudiant n'est pas dans le formulaire");
-//    }
-
     @Test
     public void testCreatEtudiantFraude(){
         String[] etudiant = new String[]{"Caillaud","Mathis","2","3"};
@@ -110,6 +104,4 @@ public class FormulaireTest {
         formulaire.creatEtudiantFraude(etudiant,fraude2);
         assertEquals(map.get(etudiantInstance),formulaire.getEtudiantFraudes().get(etudiants.get(1)),"La map des étuiants et fraudes n'est pas correctement créée");
     }
-
-
 }
