@@ -2,30 +2,30 @@ package Systeme.Formulaire.Etudes;
 
 import java.util.Objects;
 
+/**
+ * Classe représentant l'entité apprenante identifiée au sein de l'établissement.
+ * @author axel
+ */
 public class Etudiant {
-    /**
-     * Numero apprenant associé à l'étudiant
-     */
+
+    /** Matricule ou numéro d'identification unique de l'étudiant. */
     private final String NUMERO_APPRENANT;
-    /**
-     * Nom de l'étudiant
-     */
+
+    /** Nom de famille de l'apprenant. */
     private final String NOM;
-    /**
-     * Prénom de l'étudiant
-     */
+
+    /** Prénom de l'apprenant. */
     private final String PRENOM;
-    /**
-     * Systeme.Fromulaire.Etudes.Cursus suivit par l'étudiant
-     */
+
+    /** Cursus de formation actuellement suivi par l'étudiant. */
     private final Cursus CURSUS;
 
     /**
-     * Créer une instance d'Systeme.Fromulaire.Etudes.Etudiant, qui comporte un nom, un prenom, un numero apprenant et un cursus.
-     * @param NUMERO_APPRENANT Numero apprenant associé à l'étudiant
-     * @param NOM Nom de l'étudiant
-     * @param PRENOM Prénom de l'étudiant
-     * @param CURSUS Systeme.Fromulaire.Etudes.Cursus suivit par l'étudiant
+     * Constructeur d'un Étudiant complet.
+     * @param NOM Nom de famille.
+     * @param PRENOM Prénom usuel.
+     * @param NUMERO_APPRENANT Code d'identification.
+     * @param CURSUS Niveau d'étude actuel (Enum).
      */
     public Etudiant(String NOM, String PRENOM, String NUMERO_APPRENANT, Cursus CURSUS) {
         this.NUMERO_APPRENANT = NUMERO_APPRENANT;
@@ -35,40 +35,50 @@ public class Etudiant {
     }
 
     /**
-     * Instance par défaut d'Systeme.Fromulaire.Etudes.Etudiant
+     * Constructeur secondaire de commodité alimenté par un tableau de données textuelles.
+     * @param etudiant Contient obligatoirement dans l'ordre :
+     * - `etudiant[0]` : Nom
+     * - `etudiant[1]` : Prénom
+     * - `etudiant[2]` : Numéro apprenant
+     * - `etudiant[3]` : Identifiant numérique de la classe (Cursus)
      */
     public Etudiant(String[] etudiant){
         this(etudiant[0],etudiant[1], etudiant[2], Etudiant.getCursus(etudiant[3]));
     }
 
-    /**
-     * Acesseur du nom de l'étudiant
-     * @return nom : String
+    /** Récupère le nom de famille de l'étudiant.
+     * @return NOM : String
      */
     public String getNOM() {
         return NOM;
     }
 
-    /**
-     * Acesseur du prénom de l'étudiant
-     * @return prénom : String
+    /** Récupère le prénom de l'étudiant.
+     * @return PRENOM : String
      */
     public String getPRENOM() {
         return PRENOM;
     }
 
-    /**
-     * Acesseur du numéro d'apprenant de l'étudiant
-     * @return numeroAprenant : String
+    /** Récupère l'identifiant unique.
+     * @return NUMERO_APPRENANT : String
      */
     public String getNUMERO_APPRENANT() {
         return NUMERO_APPRENANT;
     }
 
+    /** Récupère le Cursus de l'étudiant.
+     * @return CURSUS : Cursus
+     */
     public Cursus getCURSUS() {
         return CURSUS;
     }
 
+    /**
+     * Convertisseur associant une saisie utilisateur numérique ("1" à "6") à un Cursus de l'école.
+     * @param cursus Identifiant sous forme de chaîne de caractères.
+     * @return L'objet Cursus correspondant, ou null en cas d'erreur de saisie.
+     */
     public static Cursus getCursus(String cursus){
         return switch (cursus) {
             case "1" -> Cursus.E1;
@@ -81,6 +91,10 @@ public class Etudiant {
         };
     }
 
+    /**
+     * Formate l'affichage de l'identité de l'étudiant.
+     * @return Format string standardisé : "(NUM) NOM PRENOM".
+     */
     @Override
     public String toString() {
         return "(" + NUMERO_APPRENANT + ")" +
@@ -89,6 +103,11 @@ public class Etudiant {
                 " -> " + CURSUS;
     }
 
+    /**
+     * Valide si deux instances d'Étudiant représentent le même individu.
+     * @param o Objet à tester.
+     * @return true si les numéros d'apprenant concordent, false sinon.
+     */
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

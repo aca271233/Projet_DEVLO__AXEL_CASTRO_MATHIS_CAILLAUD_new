@@ -1,10 +1,10 @@
 package Systeme.Formulaire.Etudes;
 
 /**
- * Represents different year groups/academic levels in a French engineering school.
- * Includes classes for CPGE (Classes Préparatoires aux Grandes Écoles),
- * integrated preparatory classes, and engineering cycles in both regular
- * and work-study (alternance) formats.
+ * Représente différents groupes d’année/niveaux académiques dans une école d’ingénieurs française.
+ * Comprend les classes de CPGE (Classes Préparatoires aux Grandes Écoles),
+ * classes préparatoires intégrées, et cycles d’ingénieurs dans les deux cycles réguliers
+ * et en alternance.
  */
 public enum Cursus {
     /**

@@ -2,12 +2,13 @@ package Systeme;
 
 import Systeme.Formulaire.Examen.Epreuve;
 import Systeme.Formulaire.Formulaire;
+
 //import org.jgrapht.Graph;
 //import org.jgrapht.graph.DefaultEdge;
 //import org.jgrapht.graph.SimpleGraph;
 //import org.jgrapht.nio.dot.DOTExporter;
-//
-//import java.io.StringWriter;
+
+import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -20,6 +21,7 @@ import static Systeme.Formulaire.Formulaire.getParamType;
  * Le système gère la sauvgarde de tous les formulaires.
  * Calcul des statistiques liées aux fomulaires.
  * Genère un graphe de corrélation entre les differents étudiants fraudeurs.
+ * @author axel
  */
 public final class Systeme {
 
@@ -36,35 +38,15 @@ public final class Systeme {
      * Liste de tous les formulaires reseignés
      */
     private LinkedList<Formulaire> formulaires;
-    /**
-     * Nombre total de formulaires
-     */
-    private int nombreFormulaires;
-    /**
-     * Nombre d'étudiants distincts concernés
-     */
-    private int nombreEtudiants;
-    /**
-     * Nombre total de fraudes enregistrées
-     */
-    private int nombreFraudes;
-    /**
-     * Moyenne du nombre de fraudes par formulaires
-     */
-    private int moyenne;
-    /**
-     * Ecart-type du nombre de fraudes par formulaires
-     */
-    private int ecartType;
-    /**
-     * Graphe non-orienté de la relation entre etudiants fraudeurs
-     */
-    private String[][] grapheEtudiants;
 
     private LinkedList<String[]> epreuves;
 
     /**
-     * Instanciation de Systeme, qui possède une liste de formulaires.
+     * Initialise le système de gestion des formulaires de fraude.
+     * <p>
+     * Crée les listes de formulaires et d'épreuves puis charge
+     * des données de démonstration.
+     * </p>
      */
     public Systeme() {
         this.formulaires = new LinkedList<>();
@@ -117,16 +99,18 @@ public final class Systeme {
     }
 
     /**
-     * Acesseur de la moyenne du nombre de fraudes par formulaires
-     * @return Moyenne calculée
+     * Calcule la moyenne du nombre de fraudes par formulaire.
+     *
+     * @return la moyenne des fraudes enregistrées par formulaire
      */
     private double getMoyenne() {
         return (double) getTotalFraudes() / getNombreFormulaires();
     }
 
     /**
-     * Acesseur de l'écart-type du nombre de fraudes par formulaires
-     * @return EcartType calculé
+     * Calcule l'écart-type du nombre de fraudes par formulaire.
+     *
+     * @return l'écart-type du nombre de fraudes
      */
     private double getEcartType() {
         double sumTotal=0;
@@ -138,8 +122,9 @@ public final class Systeme {
     }
 
     /**
-     * Acesseur du nombre total de fraudes enregistrées
-     * @return Nombre de fraudes
+     * Calcule le nombre total de fraudes enregistrées.
+     *
+     * @return le nombre total de fraudes
      */
     private int getTotalFraudes() {
         int totalFraudes = 0;
@@ -150,8 +135,9 @@ public final class Systeme {
     }
 
     /**
-     * Acesseur du nombre d'étudiants distincts concernés
-     * @return Nombre d'etudiants fraudeurs
+     * Récupère la liste des étudiants fraudeurs sans doublon.
+     *
+     * @return la liste des étudiants distincts concernés par une fraude
      */
     private ArrayList<String> getListeEtudiants() {
         ArrayList<String> listNombreEtudiants = new ArrayList<>();
@@ -169,20 +155,19 @@ public final class Systeme {
     }
 
     /**
-     * Acesseur du nombre total de formulaires
-     * @return Nombre de formulaires
+     * Retourne le nombre total de formulaires enregistrés.
+     *
+     * @return le nombre de formulaires
      */
     private int getNombreFormulaires() {
         return formulaires.size();
     }
 
     /**
-     * Acesseur du graphe non-orienté de la relation entre etudiants fraudeurs
-     * Génère une matrice diagonale (diagonale inferieure gauche non traitée).
-     * Chques lignes représentes un étudiant,
-     * chaques colonnes représente les étudiants avec lequel il a potentiellement un arc.
-     * 1 signifie qu'il y a un arc entre les deux étudiants
-     * @return Un graphe de corrélation entre les differents étudiants fraudeurs
+     * Génère la matrice d'adjacence représentant les relations entre
+     * étudiants fraudeurs apparaissant dans un même formulaire.
+     *
+     * @return la matrice d'adjacence du graphe des étudiants fraudeurs
      */
     private int[][] getGrapheEtudiants() {
         ArrayList<String> etudiants = getListeEtudiants();
@@ -222,12 +207,11 @@ public final class Systeme {
         }
         return grapheEtudiants;
     }
-    /**
-     * Affiche dans la console les caracteristiques du graphe
-     * puis le detail de la matrice qui contient le graphe.
-     *
-     */
 
+    /**
+     * Affiche dans la console les caractéristiques du graphe ainsi que
+     * sa matrice d'adjacence.
+     */
     private void afficheGraphe() {
         int[][] graphe = getGrapheEtudiants();
         int NombreSommets = graphe.length;
@@ -264,28 +248,28 @@ public final class Systeme {
             System.out.print("---");
         System.out.println();
 
-//        System.out.print(" ");
-//        int i=0;
-//        int j;
-//        int compteur;
-//        String builder;
-//        char c;
-//        do{
-//            builder = "";
-//            compteur = 0;
-//            for(j =0;j<etudiants.size(); j++){
-//                if(i<etudiants.get(j).length()){
-//                    c = etudiants.get(j).charAt(i);
-//                    builder +="  "+c;
-//                    compteur+=1;
-//                }
-//                else {
-//                    builder += "   ";
-//                }
-//            }
-//            System.out.println(builder);
-//            i++;
-//        }while(!(compteur == 0));
+        System.out.print(" ");
+        int i=0;
+        int j;
+        int compteur;
+        String builder;
+        char c;
+        do{
+            builder = "";
+            compteur = 0;
+            for(j =0;j<etudiants.size(); j++){
+                if(i<etudiants.get(j).length()){
+                    c = etudiants.get(j).charAt(i);
+                    builder +="  "+c;
+                    compteur+=1;
+                }
+                else {
+                    builder += "   ";
+                }
+            }
+            System.out.println(builder);
+            i++;
+        }while(!(compteur == 0));
 
         System.out.println();
         System.out.println("Pour generer le graphe: ");
@@ -294,6 +278,11 @@ public final class Systeme {
         System.out.println("https://dreampuf.github.io/GraphvizOnline");
     }
 
+    /**
+     * Génère la représentation Graphviz du graphe des étudiants fraudeurs.
+     *
+     * @param matriceGraphe matrice d'adjacence du graphe
+     */
 //    private void genereGraphe(int[][] matriceGraphe){
 //        int tailleMatrice = matriceGraphe.length;
 //        ArrayList<String> etudiants = getListeEtudiants();
@@ -313,7 +302,7 @@ public final class Systeme {
 //        }
 //        // Création du graphe
 //        Graph<String, DefaultEdge> graphe =
-//                new SimpleGraph<>(DefaultEdge.class);
+//                new SimpleGraph<>((DefaultEdge.class));
 //
 //        // Ajouter des sommets
 //        for(String etudiant: etudiants){
@@ -339,6 +328,10 @@ public final class Systeme {
 //        System.out.println(writer);
 //    }
 
+    /**
+     * Affiche les statistiques globales du système ainsi que le graphe
+     * des étudiants fraudeurs.
+     */
     public void affichageStatistiques(){
         System.out.printf("Moyenne du nombre de fraudes par formulaires: %.2f%n", getMoyenne());
         System.out.printf("Ecart-type du nombre de fraudes par formulaires: %.2f%n", getEcartType());
@@ -349,10 +342,20 @@ public final class Systeme {
         afficheGraphe();
     }
 
+    /**
+     * Affiche les informations générales d'un formulaire.
+     *
+     * @param formulaire formulaire à afficher
+     */
     private void affichageFormulaire(Formulaire formulaire){
         System.out.println(formulaire.toString());
     }
 
+    /**
+     * Affiche le détail des fraudes contenues dans un formulaire.
+     *
+     * @param formulaire formulaire à afficher
+     */
     private void affichageContenuFormulaire(Formulaire formulaire){
         int nbEtudaints = formulaire.getNombreEtudiants();
         for(int i=0; i<nbEtudaints; i++){
@@ -364,6 +367,12 @@ public final class Systeme {
         }
     }
 
+    /**
+     * Affiche une liste de formulaires.
+     *
+     * @param contenu     indique si le contenu détaillé doit être affiché
+     * @param formulaires liste des formulaires à afficher
+     */
     private void affichageFormulaires(boolean contenu, LinkedList<Formulaire> formulaires){
         if(formulaires.isEmpty()){
             throwNone();
@@ -378,6 +387,11 @@ public final class Systeme {
         }
     }
 
+    /**
+     * Affiche une liste d'étudiants.
+     *
+     * @param etudiantsStr liste des étudiants à afficher
+     */
     private void afficheEtudiants(ArrayList<String> etudiantsStr){
         if(etudiantsStr.isEmpty()){
             throwNone();
@@ -389,6 +403,11 @@ public final class Systeme {
         }
     }
 
+    /**
+     * Recherche les étudiants à partir de leur nom.
+     *
+     * @param nom nom recherché
+     */
     public void searchEtudiantsNom(String nom){
         ArrayList<String> etudiantsNom = new ArrayList<>();
         for(Formulaire formulaire: formulaires){
@@ -400,6 +419,11 @@ public final class Systeme {
         afficheEtudiants(etudiantsNom);
     }
 
+    /**
+     * Recherche les étudiants à partir de leur prénom.
+     *
+     * @param nom prénom recherché
+     */
     public void searchEtudiantsPrenom(String nom){
         ArrayList<String> etudiantsPrenom = new ArrayList<>();
         for(Formulaire formulaire: formulaires){
@@ -411,6 +435,11 @@ public final class Systeme {
         afficheEtudiants(etudiantsPrenom);
     }
 
+    /**
+     * Recherche un étudiant à partir de son numéro apprenant.
+     *
+     * @param numApp numéro apprenant recherché
+     */
     public void searchEtudiantsNumApp(String numApp){
         ArrayList<String> etudiantNumApp = new ArrayList<>();
         for(Formulaire formulaire: formulaires){
@@ -422,6 +451,11 @@ public final class Systeme {
         afficheEtudiants(etudiantNumApp);
     }
 
+    /**
+     * Recherche les formulaires associés à une épreuve.
+     *
+     * @param scanner scanner utilisé pour la saisie utilisateur
+     */
     public void searchFormulairesEpreuve(Scanner scanner){
         String[] epreuve = new String[1];
         inviteFormulaireEtudiantEpreuve(scanner, epreuve, 2);
@@ -434,6 +468,11 @@ public final class Systeme {
         affichageFormulaires(true, formulairesEpreuve);
     }
 
+    /**
+     * Recherche les formulaires associés à un étudiant.
+     *
+     * @param scanner scanner utilisé pour la saisie utilisateur
+     */
     public void searchFormulairesEtudiant(Scanner scanner){
         String[] etudiant = new String[1];
         inviteFormulaireEtudiantEpreuve(scanner, etudiant, 1);
@@ -447,14 +486,18 @@ public final class Systeme {
     }
 
     /**
-     * Méthode permettant de rajouter un formulaire
+     * Ajoute un formulaire à la liste des formulaires enregistrés.
+     *
+     * @param formulaire formulaire à ajouter
      */
     private void addFormulaires(Formulaire formulaire){
         formulaires.add(formulaire);
     }
 
     /**
-     * Méthode permettant de supprimer un formulaire grace à sont identifiant
+     * Supprime un formulaire à partir de son identifiant.
+     *
+     * @param identifiant identifiant du formulaire à supprimer
      */
     public void deleteFormulaire(String identifiant){
         boolean trouve = false;
@@ -474,13 +517,10 @@ public final class Systeme {
     }
 
     /**
-     * Methode permettant de créer un nouveau formulaire.
-     * Touts ces paramètres représentes l'ordre dans lequel sont rangés les attributs dans formulaireStr.
-     * String[] nomEtudiants, String[] prenomEtudiants,
-     * String[] numeroApp, String[] cursus, String[] dateReleve, String[] type,
-     * String[] contenu, String[] attribut1, String[] attribut2.
-     * @param epreuveNum Numéro de l'épreuve selectionnée
-     * @param formulaireStr Formulaire remplis sous forme de liste de liste de String
+     * Crée et ajoute un nouveau formulaire.
+     *
+     * @param epreuveNum    numéro de l'épreuve associée
+     * @param formulaireStr données du formulaire sous forme matricielle
      */
     private void addFormulaire(String epreuveNum, String[][] formulaireStr){
         Formulaire formulaire = new Formulaire();
@@ -489,6 +529,12 @@ public final class Systeme {
         addFormulaires(formulaire);
     }
 
+    /**
+     * Modifie un formulaire existant.
+     *
+     * @param NumFormulaire identifiant du formulaire à modifier
+     * @param formulaireStr nouvelles données du formulaire
+     */
     private void modifFormulaire(String NumFormulaire, String[][] formulaireStr){
         for(Formulaire formulaire: formulaires){
             if(formulaire.getIdentifiant() == Integer.parseInt(NumFormulaire)){
@@ -499,6 +545,12 @@ public final class Systeme {
         }
     }
 
+    /**
+     * Ajoute les étudiants fraudeurs et leurs fraudes dans un formulaire.
+     *
+     * @param formulaire    formulaire à compléter
+     * @param formulaireStr données du formulaire
+     */
     private void addEtudiantsFraudes(Formulaire formulaire, String[][] formulaireStr){
         int nombreElementsFormulaire = formulaireStr[0].length;
         for(int k=0; k <nombreElementsFormulaire;){
@@ -530,6 +582,13 @@ public final class Systeme {
         }
     }
 
+    /**
+     * Vérifie qu'une chaîne ne contient que des lettres,
+     * espaces ou tirets.
+     *
+     * @param motAVerif chaîne à vérifier
+     * @return true si la chaîne est valide, false sinon
+     */
     private static boolean verificationStr(String motAVerif){
         boolean valide = true;
         int tailleMot = motAVerif.length();
@@ -548,6 +607,12 @@ public final class Systeme {
         return valide;
     }
 
+    /**
+     * Vérifie qu'une chaîne représente un entier positif.
+     *
+     * @param nbAVerif valeur à vérifier
+     * @return true si la valeur est valide, false sinon
+     */
     private static boolean verificationInt(String nbAVerif){
         boolean valide = true;
         int tailleNb = nbAVerif.length();
@@ -566,6 +631,12 @@ public final class Systeme {
         return valide;
     }
 
+    /**
+     * Vérifie la validité d'une date au format jj/mm/aaaa.
+     *
+     * @param date date à vérifier
+     * @return true si la date est valide, false sinon
+     */
     private static boolean verificationDate(String date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu").withResolverStyle(ResolverStyle.STRICT);
         try {
@@ -577,6 +648,12 @@ public final class Systeme {
         }
     }
 
+    /**
+     * Vérifie qu'une adresse IP est valide.
+     *
+     * @param adresseIP adresse IP à vérifier
+     * @return true si l'adresse IP est valide, false sinon
+     */
     private static boolean verificationAdresseIP(String adresseIP){
         if(!adresseIP.matches("\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}")){
             throwError();
@@ -592,28 +669,56 @@ public final class Systeme {
         return true;
     }
 
+    /**
+     * Affiche une question puis retourne la réponse saisie.
+     *
+     * @param scanner scanner utilisé pour la lecture
+     * @param question question à afficher
+     * @return réponse saisie par l'utilisateur
+     */
     public static String inviteQuestion(Scanner scanner, String question){
         System.out.println(question);
         return scanner.nextLine();
     }
 
+    /**
+     * Affiche un message indiquant qu'aucun résultat n'a été trouvé.
+     */
     private static void throwNone(){
         System.out.println("Aucuns résultats trouvés");
     }
 
+    /**
+     * Affiche un message indiquant que l'opération a réussi.
+     */
     private static void throwSuccess(){
         System.out.println("Votre saisie a bien été prise en compte");
     }
 
+    /**
+     * Affiche un message d'erreur de saisie.
+     */
     private static void throwError(){
         System.out.println("Erreur de saisie");
     }
 
+    /**
+     * Affiche la liste des formulaires et demande la sélection
+     * d'un identifiant.
+     *
+     * @param scanner scanner utilisé pour la lecture
+     * @return identifiant du formulaire sélectionné
+     */
     public String inviteSelectionFormulaire(Scanner scanner){
         affichageFormulaires(false, formulaires);
         return inviteQuestion(scanner,listeInviteFormulaire[7]);
     }
 
+    /**
+     * Affiche les cursus ou les types de fraude disponibles.
+     *
+     * @param param "Cursus" ou "Fraudes"
+     */
     private void affichageCursusFraudes(String param){
         if(param.equals("Cursus")){
             System.out.println("1.E1");
@@ -630,10 +735,19 @@ public final class Systeme {
         }
     }
 
+    /**
+     * Affiche le libellé d'un attribut spécifique à un type de fraude.
+     *
+     * @param attribut attribut demandé
+     * @param numType  type de fraude concerné
+     */
     private void affichageAttribut1Attribut2(String attribut, String numType){
         System.out.println(getParamType(attribut,numType)+":");
     }
 
+    /**
+     * Affiche la liste des épreuves disponibles.
+     */
     private void affichageEpreuves(){
         String[] epreuveStr;
         for(int i=0; i<epreuves.size(); i++){
@@ -644,6 +758,15 @@ public final class Systeme {
         }
     }
 
+    /**
+     * Guide l'utilisateur dans la saisie des informations
+     * d'un formulaire, d'un étudiant ou d'une épreuve.
+     *
+     * @param scanner              scanner utilisé pour la lecture
+     * @param reponsesFormulaire   tableau recevant les réponses
+     * @param param                type de saisie à effectuer
+     * @return true si une erreur est détectée, false sinon
+     */
     public boolean inviteFormulaireEtudiantEpreuve(Scanner scanner, String[] reponsesFormulaire, int param){
         String[] listeInvite;
         int tailleFormulaire = reponsesFormulaire.length;
@@ -764,6 +887,12 @@ public final class Systeme {
         return false;
     }
 
+    /**
+     * Permet la création ou la modification d'un formulaire.
+     *
+     * @param scanner scanner utilisé pour la saisie
+     * @param add     true pour ajouter, false pour modifier
+     */
     public void inviteFormulaire(Scanner scanner, boolean add){
         String[] reponsesFormulaire = new String[]{null,null,null,null,null,null,null,null,null};
         String choix1;
@@ -813,6 +942,10 @@ public final class Systeme {
         }
     }
 
+    /**
+     * Affiche le message par défaut lorsqu'un choix utilisateur
+     * est invalide.
+     */
     public void affichageDefault(){
         System.out.println("⚠ Erreur dans votre choix ⚠");
         System.out.println("   Marquué 1, 2, 3 ou 4 ");
